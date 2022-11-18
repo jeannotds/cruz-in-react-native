@@ -5,10 +5,13 @@ import { Button, StyleSheet, Text, TextInput, View } from "react-native";
 export default function App() {
   const [enteredGoalsText, setEnteredGoalsText] = useState("");
   const [courseGoals, setCourseGoals] = useState([]);
+  const [count, setCount] = useState(0);
 
   const goalInputHandle = (entreredText) => {
     setEnteredGoalsText(entreredText);
   };
+
+  console.log(count);
 
   const addGoalsHandle = () => {
     // setCourseGoals((currentCourseGoals) => [
@@ -31,12 +34,14 @@ export default function App() {
         <Button title="Add Goal" onPress={addGoalsHandle} required />
       </View>
       <View style={styles.goalsContainer}>
+        <Text>List of goal : {courseGoals.length} </Text>
         {courseGoals.map((goal, index) => (
           <View style={styles.goalItem} key={`${goal}-${index}`}>
-            <Text>
+            <Text style={styles.colorText}>
               {index + 1} : {goal}
             </Text>
           </View>
+          
         ))}
       </View>
     </View>
@@ -74,7 +79,10 @@ const styles = StyleSheet.create({
     margin: 8,
     borderRadius: 6,
     backgroundColor: "#5e0acc",
-    color: "#fff",
+    color: "white",
     padding: 8,
+  },
+  colorText: {
+    color: "white",
   },
 });
