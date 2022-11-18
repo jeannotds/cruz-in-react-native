@@ -1,20 +1,80 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+// import { StatusBar } from 'expo-status-bar';
+import { useState } from "react";
+import { Button, StyleSheet, Text, TextInput, View } from "react-native";
 
 export default function App() {
+  const [enteredGoalsText, setEnteredGoalsText] = useState("");
+  const [courseGoals, setCourseGoals] = useState([]);
+
+  const goalInputHandle = (entreredText) => {
+    setEnteredGoalsText(entreredText);
+  };
+
+  const addGoalsHandle = () => {
+    // setCourseGoals((currentCourseGoals) => [
+    //   ...currentCourseGoals,
+    //   enteredGoalsText,
+    // ]);
+    setCourseGoals([...courseGoals, enteredGoalsText]);
+    console.log(courseGoals);
+    // setEnteredGoalsText("");
+  };
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+    <View style={styles.appAontainer}>
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.TextInput}
+          placeholder="Your course goal!"
+          onChangeText={goalInputHandle}
+        />
+        <Button title="Add Goal" onPress={addGoalsHandle} required />
+      </View>
+      <View style={styles.goalsContainer}>
+        {courseGoals.map((goal, index) => (
+          <View style={styles.goalItem} key={`${goal}-${index}`}>
+            <Text>
+              {index + 1} : {goal}
+            </Text>
+          </View>
+        ))}
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  appAontainer: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    marginTop: 30,
+    paddingTop: 20,
+    paddingHorizontal: 16,
+  },
+  inputContainer: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingBottom: 25,
+    borderBottomWidth: 1,
+    marginBottom: 20,
+  },
+  TextInput: {
+    borderColor: "#cccccc",
+    borderWidth: 1,
+    width: "70%",
+    marginRight: 8,
+    padding: 8,
+    // backgroundColor: "#ededed"
+  },
+  goalsContainer: {
+    flex: 3,
+  },
+  goalItem: {
+    margin: 8,
+    borderRadius: 6,
+    backgroundColor: "#5e0acc",
+    color: "#fff",
+    padding: 8,
   },
 });
