@@ -1,26 +1,39 @@
 // import { StatusBar } from 'expo-status-bar';
 import { useState } from "react";
-import { Button, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+  Button,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  ScrollView,
+  TouchableHighlight,
+} from "react-native";
 
 export default function App() {
   const [enteredGoalsText, setEnteredGoalsText] = useState("");
   const [courseGoals, setCourseGoals] = useState([]);
-  const [count, setCount] = useState(0);
+  const [specificGoal, setSpecificGoal] = useState("");
 
   const goalInputHandle = (entreredText) => {
     setEnteredGoalsText(entreredText);
   };
 
-  console.log(count);
-
   const addGoalsHandle = () => {
-    // setCourseGoals((currentCourseGoals) => [
-    //   ...currentCourseGoals,
-    //   enteredGoalsText,
-    // ]);
-    setCourseGoals([...courseGoals, enteredGoalsText]);
-    console.log(courseGoals);
-    // setEnteredGoalsText("");
+    if (enteredGoalsText !== "") {
+      setCourseGoals([...courseGoals, enteredGoalsText]);
+      console.log(courseGoals);
+      setEnteredGoalsText("");
+    } else {
+      alert("Veillez entrer une information !");
+    }
+  };
+
+  const showUserHandle = (goal, index) => {
+    let number = "Number " + index
+    let comment = " and is name is "
+    let identite = goal 
+    alert(number + comment + identite);
   };
 
   return (
@@ -33,16 +46,22 @@ export default function App() {
         />
         <Button title="Add Goal" onPress={addGoalsHandle} required />
       </View>
+      <Text>List of goal : {courseGoals.length} </Text>
       <View style={styles.goalsContainer}>
-        <Text>List of goal : {courseGoals.length} </Text>
-        {courseGoals.map((goal, index) => (
-          <View style={styles.goalItem} key={`${goal}-${index}`}>
-            <Text style={styles.colorText}>
-              {index + 1} : {goal}
-            </Text>
-          </View>
-          
-        ))}
+        <ScrollView>
+          {courseGoals.map((goal, index) => (
+            <TouchableHighlight
+              style={styles.goalItem}
+              key={`${goal}-${index}`}
+              onPress={() => showUserHandle(goal, index+1)}
+              
+            >
+              <Text style={styles.colorText}>
+                {index + 1} : {goal}
+              </Text>
+            </TouchableHighlight>
+          ))}
+        </ScrollView>
       </View>
     </View>
   );
