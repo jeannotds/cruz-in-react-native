@@ -13,7 +13,6 @@ import {
 export default function App() {
   const [enteredGoalsText, setEnteredGoalsText] = useState("");
   const [courseGoals, setCourseGoals] = useState([]);
-  const [specificGoal, setSpecificGoal] = useState("");
 
   const goalInputHandle = (entreredText) => {
     setEnteredGoalsText(entreredText);
@@ -30,9 +29,9 @@ export default function App() {
   };
 
   const showUserHandle = (goal, index) => {
-    let number = "Number " + index
-    let comment = " and is name is "
-    let identite = goal 
+    let number = "N°" + index;
+    let comment = " : ";
+    let identite = goal;
     alert(number + comment + identite);
   };
 
@@ -43,6 +42,7 @@ export default function App() {
           style={styles.TextInput}
           placeholder="Your course goal!"
           onChangeText={goalInputHandle}
+          value={enteredGoalsText}
         />
         <Button title="Add Goal" onPress={addGoalsHandle} required />
       </View>
@@ -53,8 +53,7 @@ export default function App() {
             <TouchableHighlight
               style={styles.goalItem}
               key={`${goal}-${index}`}
-              onPress={() => showUserHandle(goal, index+1)}
-              
+              onPress={() => showUserHandle(goal, index + 1)}
             >
               <Text style={styles.colorText}>
                 {index + 1} : {goal}
