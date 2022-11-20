@@ -6,61 +6,53 @@ import {
   Text,
   TextInput,
   View,
-  ScrollView,
-  TouchableHighlight,
+  FlatList,
 } from "react-native";
+import GoalInput from "./components/GoalInput";
+import GoalItem from "./components/GoalItem";
 
 export default function App() {
-  const [enteredGoalsText, setEnteredGoalsText] = useState("");
   const [courseGoals, setCourseGoals] = useState([]);
 
-  const goalInputHandle = (entreredText) => {
-    setEnteredGoalsText(entreredText);
-  };
-
-  const addGoalsHandle = () => {
+  const addGoalsHandle = (enteredGoalsText) => {
     if (enteredGoalsText !== "") {
-      setCourseGoals([...courseGoals, enteredGoalsText]);
+      setCourseGoals([
+        ...courseGoals,
+        { text: enteredGoalsText, id: Math.random().toString() },
+      ]);
       console.log(courseGoals);
-      setEnteredGoalsText("");
     } else {
       alert("Veillez entrer une information !");
     }
   };
 
-  const showUserHandle = (goal, index) => {
-    let number = "N°" + index;
-    let comment = " : ";
-    let identite = goal;
-    alert(number + comment + identite);
+  const deleteGoalHandle = (id) => {
+    setCourseGoals((currentCourse) => {
+      return currentCourse.filter((goal) => goal.id != id);
+    });
   };
 
   return (
     <View style={styles.appAontainer}>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.TextInput}
-          placeholder="Your course goal!"
-          onChangeText={goalInputHandle}
-          value={enteredGoalsText}
-        />
-        <Button title="Add Goal" onPress={addGoalsHandle} required />
-      </View>
       <Text>List of goal : {courseGoals.length} </Text>
+      <GoalInput onAddGoals={addGoalsHandle} />
       <View style={styles.goalsContainer}>
-        <ScrollView>
-          {courseGoals.map((goal, index) => (
-            <TouchableHighlight
-              style={styles.goalItem}
-              key={`${goal}-${index}`}
-              onPress={() => showUserHandle(goal, index + 1)}
-            >
-              <Text style={styles.colorText}>
-                {index + 1} : {goal}
-              </Text>
-            </TouchableHighlight>
-          ))}
-        </ScrollView>
+        <FlatList
+          data={courseGoals}
+          renderItem={(itemData) => {
+            return (
+              <GoalItem
+                text={itemData.item.text}
+                onDeleteItem={deleteGoalHandle}
+                id={itemData.item.id}
+              />
+            );
+          }}
+          keyExtractor={(item, index) => {
+            return item.id;
+          }}
+          alwaysBounceVertical={false}
+        />
       </View>
     </View>
   );
