@@ -34,8 +34,8 @@ export default function App() {
 
   return (
     <View style={styles.appAontainer}>
-      <Text>List of goal : {courseGoals.length} </Text>
       <GoalInput onAddGoals={addGoalsHandle} />
+      <Text>List of goal : {courseGoals.length} </Text>
       <View style={styles.goalsContainer}>
         <FlatList
           data={courseGoals}

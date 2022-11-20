@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 import { View, TextInput, Button } from "react-native";
 import { useState } from "react";
 
-export default function GoalInput(props) {
+export default function GoalInput({onAddGoals}) {
   const [enteredGoalsText, setEnteredGoalsText] = useState("");
 
   const goalInputHandle = (entreredText) => {
@@ -11,8 +11,9 @@ export default function GoalInput(props) {
   };
 
   const addGoalsHandle = () => {
-    props.onAddGoals(enteredGoalsText);
+    onAddGoals(enteredGoalsText);
     setEnteredGoalsText("");
+    console.log("'enteredGoalsText' :", enteredGoalsText);
   };
 
   return (
